@@ -1,26 +1,19 @@
 import React, { useState } from "react";
-import Add from '../imgs/addAvatar.png';
-import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import Add from "../imgs/addAvatar.png";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db, storage } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-import { firebaseConfig } from "../firebase"; // Make sure you have a firebaseConfig file with your configuration.
 
 const Register = () => {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
-  const auth = getAuth(firebaseApp);
-  const storage = getStorage(firebaseApp);
-  const db = getFirestore(firebaseApp);
-
   const handleSubmit = async (e) => {
     setLoading(true);
-    e.preventDefault();
+
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
@@ -70,8 +63,8 @@ const Register = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo">Nova Connect</span>
-        <span className="title"> Register</span>
+        <span className="logo">Nova Chat</span>
+        <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
           <input required type="text" placeholder="display name" />
           <input required type="email" placeholder="email" />
@@ -86,7 +79,7 @@ const Register = () => {
           {err && <span>Something went wrong</span>}
         </form>
         <p>
-          You do have an account? <Link to="/register">Login</Link>
+          You do have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>
